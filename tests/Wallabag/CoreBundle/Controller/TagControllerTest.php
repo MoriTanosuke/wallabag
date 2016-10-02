@@ -45,7 +45,7 @@ class TagControllerTest extends WallabagCoreTestCase
             ->getRepository('WallabagCoreBundle:Entry')
             ->findOneByUsernameAndNotArchived('admin');
 
-        $this->assertEquals(1, count($entry->getTags()));
+        $this->assertEquals(3, count($entry->getTags()));
 
         // tag already exists and already assigned
         $client->submit($form, $data);
@@ -56,7 +56,7 @@ class TagControllerTest extends WallabagCoreTestCase
             ->getRepository('WallabagCoreBundle:Entry')
             ->find($entry->getId());
 
-        $this->assertEquals(1, count($newEntry->getTags()));
+        $this->assertEquals(3, count($newEntry->getTags()));
 
         // tag already exists but still not assigned to this entry
         $data = [
@@ -71,7 +71,7 @@ class TagControllerTest extends WallabagCoreTestCase
             ->getRepository('WallabagCoreBundle:Entry')
             ->find($entry->getId());
 
-        $this->assertEquals(2, count($newEntry->getTags()));
+        $this->assertEquals(3, count($newEntry->getTags()));
     }
 
     public function testAddMultipleTagToEntry()
@@ -160,6 +160,6 @@ class TagControllerTest extends WallabagCoreTestCase
         $crawler = $client->request('GET', '/tag/list/'.$tag->getSlug());
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertCount(0, $crawler->filter('div[class=entry]'));
+        $this->assertCount(1, $crawler->filter('div[class=entry]'));
     }
 }
